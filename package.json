@@ -1,0 +1,20 @@
+{
+  "name": "batuta",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Batuta — a camada de regência acima dos MCPs oficiais de anúncios. O agente toca; a batuta é sua.",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "build": "pnpm -r --filter @batuta/core build && pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @batuta/core test",
+    "dev:mcp": "pnpm --filter @batuta/mcp dev",
+    "dev:web": "pnpm --filter @batuta/web dev",
+    "dev:worker": "pnpm --filter @batuta/workers dev",
+    "db:push": "pnpm --filter @batuta/db db:push"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
