@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@batuta/core', '@batuta/db'],
-};
+  // No transpilePackages needed since we install directly
+}
 
-export default nextConfig;
+export default nextConfig
