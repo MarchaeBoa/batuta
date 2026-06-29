@@ -1,5 +1,6 @@
 {
-    "buildCommand": "npm run build",
-    "outputDirectory": ".next",
-    "installCommand": "npm install"
+      "buildCommand": "pnpm --filter @batuta/web build",
+      "outputDirectory": "apps/web/.next",
+      "installCommand": "pnpm install",
+      "framework": "nextjs"
 }
