@@ -9,3 +9,6 @@ out/
 npm-debug.log*
 pnpm-debug.log*
 coverage/
+
+# Next.js generated
+next-env.d.ts

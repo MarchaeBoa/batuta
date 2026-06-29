@@ -126,13 +126,71 @@ pnpm test                    # roda os testes do Cofre
 pnpm typecheck               # checa tipos do monorepo
 ```
 
-### Prévias estáticas (abra no navegador, sem build)
+### Landing "A Partitura" (no ar)
 
-- `apps/web/public/landing.html` — a página de vendas.
-- `apps/web/public/painel.html` — prévia navegável do painel, na identidade
-  **"A Partitura"** (orçamento como dinâmica musical `pp→fff`). A pauta do Cofre
-  é interativa. *O painel real em React/Next ainda usa o tema base; portar essa
-  identidade pros componentes é o próximo passo.*
+A landing de marketing já está em **Next.js 14 + React** na identidade
+**"A Partitura"** — paper/latão, tipografia Fraunces/Hanken/Spline Mono, sem
+nada de genérico. O destaque é a **pauta de dinâmica interativa** do Cofre: a
+nota desliza pela escala `pp→fff`, **bate na barra de latão** (o teto) e muda de
+cor — **verdete** (liberado), **latão** (pede aval), **vinho** (barrado). O
+veredito (`allow | hold | block` + folga) vem de `evaluate()`, fiel ao contrato
+do `@batuta/core`.
+
+```bash
+pnpm install
+pnpm dev:web        # → http://localhost:3000
+```
+
+Arrasta o controle "aumento do agente" para **+R$200** numa conta já em
+**R$1.040/R$1.200** e o Cofre trava em **vinho**, com folga **R$160**. Baixa para
+**+R$100** e a nota volta ao **verdete**. É a demo que vende a Batuta, num clique.
+
+> Identidade visual escolhida de propósito: o editorial paper/latão foge da cara
+> "SaaS dark + violeta" que todo concorrente usa. Próximo passo é o dashboard
+> (as 5 telas em atos) na mesma identidade.
+
+---
+
+## Deploy na Vercel
+
+A landing é **estática/prerenderizada** (`next build` gera tudo como `Static`),
+então sobe na Vercel sem segredo nenhum — nenhuma variável de ambiente é
+necessária para a landing.
+
+O repositório já vem com `vercel.json` na raiz, configurado para o monorepo pnpm:
+
+```json
+{
+  "framework": "nextjs",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @batuta/web build",
+  "outputDirectory": "apps/web/.next"
+}
+```
+
+### Opção A — importar pela raiz (usa o `vercel.json` acima)
+
+1. Em **vercel.com → Add New → Project**, importe `MarchaeBoa/batuta`.
+2. **Root Directory:** deixe na raiz (`./`).
+3. **Framework Preset:** Next.js · **Build/Install Command:** já vêm do `vercel.json`.
+4. **Deploy.** Pronto — sem env vars.
+
+### Opção B — Root Directory = `apps/web` (auto-detect)
+
+1. Importe o repo e em **Settings → General → Root Directory** aponte para `apps/web`.
+2. A Vercel detecta o workspace pnpm sozinha, instala da raiz e roda `next build`.
+3. **Deploy.**
+
+### Pela CLI (se tiver `vercel` autenticado)
+
+```bash
+npm i -g vercel
+vercel link          # vincula ao projeto
+vercel --prod        # publica
+```
+
+> Depois do primeiro deploy, cole o link aqui:
+> **🔗 Demo ao vivo:** `https://<seu-projeto>.vercel.app`
 
 ---
 

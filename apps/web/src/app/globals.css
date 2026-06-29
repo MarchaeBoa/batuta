@@ -1,1 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+:root {
+  --stage: #1f1813;
+  --stage-2: #271f18;
+  --paper: #ece5d3;
+  --ink: #241d15;
+  --ink-soft: #5c5142;
+  --line: #c9bea3;
+  --brass: #be8c36;
+  --brass-2: #9c7128;
+  --wine: #9a3a40;
+  --verdigris: #5c8a6f;
+  --cream: #eae2cf;
+  --cream-soft: #a99e86;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-feature-settings: 'ss01', 'cv01';
+  }
+
+  ::selection {
+    background: var(--brass);
+    color: var(--paper);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-feature-settings: 'liga', 'dlig';
+  }
+}
+
+@layer components {
+  /* Pauta — linhas de partitura sutis */
+  .staff-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 13px,
+      color-mix(in srgb, var(--line) 60%, transparent) 13px,
+      color-mix(in srgb, var(--line) 60%, transparent) 14px
+    );
+  }
+
+  .staff-lines-dark {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 13px,
+      rgba(190, 140, 54, 0.16) 13px,
+      rgba(190, 140, 54, 0.16) 14px
+    );
+  }
+
+  /* Grão de papel bem leve */
+  .paper-grain {
+    background-image: radial-gradient(
+        circle at 20% 30%,
+        rgba(190, 140, 54, 0.05),
+        transparent 45%
+      ),
+      radial-gradient(circle at 80% 10%, rgba(154, 58, 64, 0.04), transparent 40%),
+      radial-gradient(circle at 60% 80%, rgba(92, 138, 111, 0.05), transparent 45%);
+  }
+
+  .hairline {
+    border-color: var(--line);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Filete decorativo com clave/ponto de latão */
+  .rule-brass {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--line) 12%,
+      var(--line) 88%,
+      transparent
+    );
+    height: 1px;
+  }
+}
+
+@layer utilities {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
