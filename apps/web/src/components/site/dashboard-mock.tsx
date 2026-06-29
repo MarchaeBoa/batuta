@@ -1,8 +1,8 @@
-import { ArrowUpRight, ArrowDownRight, Bell, Sparkles } from 'lucide-react'
+import { ArrowUpRight, ArrowDownRight, Bell, Sparkles, Check, Clock, Pause, Loader } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
 /* ----------------------------------------------------------------------------
- * Helpers de gráfico — geram paths SVG determinísticos (sem imagens externas).
+ * Helpers de gráfico — paths SVG determinísticos (sem imagens externas).
  * ------------------------------------------------------------------------- */
 
 function linePath(values: number[], w: number, h: number, pad = 6): string {
@@ -24,7 +24,7 @@ function areaPath(values: number[], w: number, h: number, pad = 6): string {
 }
 
 const revenue = [22, 31, 27, 40, 47, 57, 63, 71, 67, 83, 91, 104]
-const spend = [14, 18, 17, 22, 25, 27, 26, 30, 28, 31, 30, 34]
+const conversions = [12, 16, 15, 19, 22, 25, 28, 31, 30, 35, 38, 42]
 
 function Sparkline({ values, className }: { values: number[]; className?: string }) {
   return (
@@ -35,29 +35,50 @@ function Sparkline({ values, className }: { values: number[]; className?: string
 }
 
 /* ----------------------------------------------------------------------------
- * KPIs
+ * Dados
  * ------------------------------------------------------------------------- */
 
 const kpis = [
   { label: 'Receita', value: 'R$ 402,1k', delta: '+23,1%', up: true, spark: revenue, color: 'text-brand-500' },
-  { label: 'Investimento', value: 'R$ 84,2k', delta: '+8,4%', up: true, spark: spend, color: 'text-zinc-400' },
-  { label: 'ROAS médio', value: '4,8x', delta: '+0,6', up: true, spark: [3.1, 3.4, 3.2, 3.9, 4.1, 4.4, 4.8], color: 'text-emerald-500' },
-  { label: 'Conversões', value: '3.918', delta: '+14,2%', up: true, spark: [12, 16, 15, 19, 22, 25, 28], color: 'text-brand-500' },
+  { label: 'Conversões', value: '3.918', delta: '+14,2%', up: true, spark: conversions, color: 'text-emerald-500' },
+  { label: 'Ticket médio', value: 'R$ 318', delta: '+6,4%', up: true, spark: [3, 3.2, 3.1, 3.4, 3.3, 3.6, 3.8], color: 'text-brand-500' },
+  { label: 'Taxa de conv.', value: '4,7%', delta: '-0,3%', up: false, spark: [5, 4.8, 4.9, 4.6, 4.7, 4.5, 4.7], color: 'text-zinc-400' },
 ]
 
-const platforms = [
-  { name: 'Google Ads', pct: 42, color: '#3b82f6' },
-  { name: 'Meta Ads', pct: 31, color: '#6366f1' },
-  { name: 'TikTok Ads', pct: 18, color: '#ec4899' },
-  { name: 'LinkedIn Ads', pct: 9, color: '#0ea5e9' },
+const channels = [
+  { name: 'Google', pct: 42, color: '#3b82f6' },
+  { name: 'Meta', pct: 31, color: '#6366f1' },
+  { name: 'TikTok', pct: 18, color: '#ec4899' },
+  { name: 'LinkedIn', pct: 9, color: '#0ea5e9' },
 ]
 
-const campaigns = [
-  { name: 'Black Friday · Search', platform: 'Google', status: 'Ativa', roas: '5,2x', spend: 'R$ 18,4k', dot: '#3b82f6' },
-  { name: 'Remarketing · Feed', platform: 'Meta', status: 'Ativa', roas: '4,1x', spend: 'R$ 12,1k', dot: '#6366f1' },
-  { name: 'Topo de funil · Reels', platform: 'TikTok', status: 'Pausada', roas: '2,3x', spend: 'R$ 6,7k', dot: '#ec4899' },
-  { name: 'Leads B2B · InMail', platform: 'LinkedIn', status: 'Ativa', roas: '3,6x', spend: 'R$ 9,8k', dot: '#0ea5e9' },
+const leads = [
+  { name: 'Mariana Costa', company: 'Lumora', channel: 'Google', status: 'Convertido', value: 'R$ 7.4k', dot: '#3b82f6' },
+  { name: 'Rafael Nunes', company: 'Cardume', channel: 'Meta', status: 'Qualificado', value: 'R$ 2.8k', dot: '#6366f1' },
+  { name: 'Bianca Alves', company: 'Vértice', channel: 'LinkedIn', status: 'Em contato', value: 'R$ 4.2k', dot: '#0ea5e9' },
+  { name: 'Thiago Moreira', company: 'Nimbus', channel: 'TikTok', status: 'Qualificado', value: 'R$ 1.9k', dot: '#ec4899' },
 ]
+
+const statusStyles: Record<string, string> = {
+  Convertido: 'bg-emerald-50 text-emerald-700',
+  Qualificado: 'bg-brand-50 text-brand-700',
+  'Em contato': 'bg-amber-50 text-amber-700',
+}
+
+const automations = [
+  { name: 'Realocação de orçamento', state: 'Ativa', icon: Check, tone: 'emerald' },
+  { name: 'Pausar baixo ROAS', state: 'Ativa', icon: Check, tone: 'emerald' },
+  { name: 'Alerta de CPA alto', state: 'Executando', icon: Loader, tone: 'amber' },
+  { name: 'Relatório semanal', state: 'Agendada', icon: Clock, tone: 'brand' },
+  { name: 'Bid cap inteligente', state: 'Pausada', icon: Pause, tone: 'zinc' },
+]
+
+const tone: Record<string, { wrap: string; dot: string }> = {
+  emerald: { wrap: 'bg-emerald-50 text-emerald-600', dot: 'text-emerald-600' },
+  amber: { wrap: 'bg-amber-50 text-amber-600', dot: 'text-amber-600' },
+  brand: { wrap: 'bg-brand-50 text-brand-600', dot: 'text-brand-600' },
+  zinc: { wrap: 'bg-zinc-100 text-zinc-500', dot: 'text-zinc-500' },
+}
 
 /* ----------------------------------------------------------------------------
  * Dashboard
@@ -82,8 +103,8 @@ export function DashboardMock({ className }: { className?: string }) {
           <span className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-ink shadow-soft ring-1 ring-zinc-200">
             Visão geral
           </span>
-          <span className="px-2.5 py-1 text-xs text-zinc-400">Campanhas</span>
-          <span className="px-2.5 py-1 text-xs text-zinc-400">Relatórios</span>
+          <span className="px-2.5 py-1 text-xs text-zinc-400">Leads</span>
+          <span className="px-2.5 py-1 text-xs text-zinc-400">Automações</span>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <span className="hidden rounded-md bg-white px-2 py-1 text-[11px] text-zinc-500 ring-1 ring-zinc-200 sm:inline">
@@ -120,23 +141,23 @@ export function DashboardMock({ className }: { className?: string }) {
             ))}
           </div>
 
-          {/* Gráfico de área: Receita vs Investimento */}
+          {/* Gráfico de crescimento */}
           <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-soft">
             <div className="mb-3 flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-ink">Receita vs. Investimento</p>
-                <p className="text-xs text-zinc-500">Consolidado de todas as plataformas</p>
+                <p className="text-sm font-semibold text-ink">Crescimento de receita</p>
+                <p className="text-xs text-zinc-500">Consolidado de todos os canais</p>
               </div>
               <div className="flex items-center gap-3 text-[11px]">
                 <span className="inline-flex items-center gap-1.5 text-zinc-600">
                   <span className="h-2 w-2 rounded-full bg-brand-500" /> Receita
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-zinc-600">
-                  <span className="h-2 w-2 rounded-full bg-zinc-300" /> Investimento
+                  <span className="h-2 w-2 rounded-full bg-zinc-300" /> Conversões
                 </span>
               </div>
             </div>
-            <svg viewBox="0 0 640 200" className="h-40 w-full sm:h-48" fill="none" preserveAspectRatio="none">
+            <svg viewBox="0 0 640 200" className="h-36 w-full sm:h-44" fill="none" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="rev-fill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#5b56f0" stopOpacity="0.22" />
@@ -149,7 +170,7 @@ export function DashboardMock({ className }: { className?: string }) {
               <path d={areaPath(revenue, 640, 200, 8)} fill="url(#rev-fill)" />
               <path d={linePath(revenue, 640, 200, 8)} stroke="#5b56f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               <path
-                d={linePath(spend, 640, 200, 8)}
+                d={linePath(conversions, 640, 200, 8)}
                 stroke="#d4d4d8"
                 strokeWidth="2"
                 strokeLinecap="round"
@@ -159,44 +180,52 @@ export function DashboardMock({ className }: { className?: string }) {
             </svg>
           </div>
 
-          {/* Tabela de campanhas */}
+          {/* Tabela de leads */}
           <div className="overflow-hidden rounded-xl border border-zinc-100 bg-white shadow-soft">
             <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3">
-              <p className="text-sm font-semibold text-ink">Campanhas em destaque</p>
-              <span className="text-xs text-zinc-400">4 de 37</span>
+              <p className="text-sm font-semibold text-ink">Leads recentes</p>
+              <span className="text-xs text-zinc-400">248 esta semana</span>
             </div>
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="text-zinc-400">
-                  <th className="px-4 py-2 font-medium">Campanha</th>
+                  <th className="px-4 py-2 font-medium">Lead</th>
+                  <th className="hidden px-4 py-2 font-medium sm:table-cell">Canal</th>
                   <th className="px-4 py-2 font-medium">Status</th>
-                  <th className="px-4 py-2 text-right font-medium">ROAS</th>
-                  <th className="hidden px-4 py-2 text-right font-medium sm:table-cell">Investido</th>
+                  <th className="px-4 py-2 text-right font-medium">Valor</th>
                 </tr>
               </thead>
               <tbody>
-                {campaigns.map((c) => (
-                  <tr key={c.name} className="border-t border-zinc-50">
+                {leads.map((l) => (
+                  <tr key={l.name} className="border-t border-zinc-50">
                     <td className="px-4 py-2.5">
-                      <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: c.dot }} />
-                        <span className="font-medium text-ink">{c.name}</span>
+                      <div className="flex items-center gap-2.5">
+                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-[10px] font-semibold text-zinc-600">
+                          {l.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                        </span>
+                        <div className="leading-tight">
+                          <p className="font-medium text-ink">{l.name}</p>
+                          <p className="text-[10px] text-zinc-400">{l.company}</p>
+                        </div>
                       </div>
+                    </td>
+                    <td className="hidden px-4 py-2.5 sm:table-cell">
+                      <span className="inline-flex items-center gap-1.5 text-zinc-600">
+                        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: l.dot }} />
+                        {l.channel}
+                      </span>
                     </td>
                     <td className="px-4 py-2.5">
                       <span
                         className={cn(
-                          'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium',
-                          c.status === 'Ativa'
-                            ? 'bg-emerald-50 text-emerald-700'
-                            : 'bg-amber-50 text-amber-700',
+                          'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium',
+                          statusStyles[l.status],
                         )}
                       >
-                        {c.status}
+                        {l.status}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-right font-semibold text-ink">{c.roas}</td>
-                    <td className="hidden px-4 py-2.5 text-right text-zinc-500 sm:table-cell">{c.spend}</td>
+                    <td className="px-4 py-2.5 text-right font-semibold text-ink">{l.value}</td>
                   </tr>
                 ))}
               </tbody>
@@ -206,19 +235,43 @@ export function DashboardMock({ className }: { className?: string }) {
 
         {/* Coluna lateral */}
         <div className="space-y-4">
-          {/* Distribuição por plataforma */}
+          {/* Status de automações */}
           <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-soft">
-            <p className="text-sm font-semibold text-ink">Investimento por plataforma</p>
-            <div className="mt-4 flex items-center gap-4">
-              <DonutChart segments={platforms} />
-              <ul className="flex-1 space-y-2">
-                {platforms.map((p) => (
-                  <li key={p.name} className="flex items-center justify-between text-xs">
-                    <span className="inline-flex items-center gap-1.5 text-zinc-600">
-                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: p.color }} />
-                      {p.name}
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-ink">Automações</p>
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> 4 ativas
+              </span>
+            </div>
+            <ul className="mt-3 space-y-2.5">
+              {automations.map((a) => {
+                const t = tone[a.tone]
+                return (
+                  <li key={a.name} className="flex items-center gap-3">
+                    <span className={cn('inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg', t.wrap)}>
+                      <a.icon className="h-3.5 w-3.5" />
                     </span>
-                    <span className="font-medium text-ink">{p.pct}%</span>
+                    <span className="flex-1 text-xs font-medium text-ink">{a.name}</span>
+                    <span className={cn('text-[10px] font-medium', t.dot)}>{a.state}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+
+          {/* Receita por canal */}
+          <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-soft">
+            <p className="text-sm font-semibold text-ink">Receita por canal</p>
+            <div className="mt-4 flex items-center gap-4">
+              <DonutChart segments={channels} />
+              <ul className="flex-1 space-y-2">
+                {channels.map((c) => (
+                  <li key={c.name} className="flex items-center justify-between text-xs">
+                    <span className="inline-flex items-center gap-1.5 text-zinc-600">
+                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: c.color }} />
+                      {c.name}
+                    </span>
+                    <span className="font-medium text-ink">{c.pct}%</span>
                   </li>
                 ))}
               </ul>
@@ -232,35 +285,14 @@ export function DashboardMock({ className }: { className?: string }) {
                 <Sparkles className="h-4 w-4" />
               </span>
               <div>
-                <p className="text-xs font-semibold text-ink">Ação do agente</p>
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-ink">
+                  <Bell className="h-3 w-3 text-brand-600" /> Ação do agente
+                </p>
                 <p className="mt-0.5 text-xs leading-relaxed text-zinc-600">
-                  Realoquei <span className="font-semibold text-brand-700">R$ 2.300</span> da campanha de
-                  menor ROAS para a de melhor desempenho. Receita projetada: +6,4%.
+                  Realoquei <span className="font-semibold text-brand-700">R$ 2.300</span> para a campanha
+                  de maior ROAS. Receita projetada: +6,4%.
                 </p>
               </div>
-            </div>
-          </div>
-
-          {/* Status de saúde */}
-          <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-soft">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-ink">Saúde das contas</p>
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600">
-                <Bell className="h-3 w-3" /> tudo certo
-              </span>
-            </div>
-            <div className="mt-3 space-y-2.5">
-              {platforms.map((p) => (
-                <div key={p.name}>
-                  <div className="mb-1 flex items-center justify-between text-[11px] text-zinc-500">
-                    <span>{p.name}</span>
-                    <span>{p.pct}%</span>
-                  </div>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
-                    <div className="h-full rounded-full" style={{ width: `${p.pct + 50}%`, maxWidth: '100%', backgroundColor: p.color }} />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>

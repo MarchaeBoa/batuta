@@ -5,6 +5,7 @@ import { Benefits } from '@/components/site/benefits'
 import { ProductDemo } from '@/components/site/product-demo'
 import { Features } from '@/components/site/features'
 import { Stats } from '@/components/site/stats'
+import { Pricing } from '@/components/site/pricing'
 import { Testimonials } from '@/components/site/testimonials'
 import { FAQ } from '@/components/site/faq'
 import { FinalCTA } from '@/components/site/final-cta'
@@ -21,6 +22,7 @@ export default function HomePage() {
         <ProductDemo />
         <Features />
         <Stats />
+        <Pricing />
         <Testimonials />
         <FAQ />
         <FinalCTA />

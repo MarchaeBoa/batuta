@@ -1,4 +1,4 @@
-import { Zap, Layers, Clock, ShieldCheck } from 'lucide-react'
+import { Zap, TrendingUp, Target, BarChart3, Plug, ShieldCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Container } from '@/components/ui/container'
 import { Reveal } from '@/components/ui/reveal'
@@ -9,25 +9,37 @@ const benefits: { icon: LucideIcon; title: string; description: string }[] = [
     icon: Zap,
     title: 'Automação que age',
     description:
-      'Ajustes de lances, orçamento e segmentação acontecem sozinhos, com base em desempenho real — não em palpites.',
+      'Lances, orçamento e segmentação se ajustam sozinhos, com base em desempenho real — não em palpites.',
   },
   {
-    icon: Layers,
+    icon: TrendingUp,
     title: 'Escala sem caos',
     description:
-      'Centralize todas as plataformas em um painel só. Mais campanhas, mais contas, a mesma clareza.',
+      'Centralize todas as plataformas num painel só. Mais campanhas, mais contas, a mesma clareza.',
   },
   {
-    icon: Clock,
-    title: 'De volta o seu tempo',
+    icon: Target,
+    title: 'Mais conversão',
     description:
-      'Pare de exportar planilhas e cruzar relatórios. A Batuta consolida tudo e devolve horas à sua semana.',
+      'O agente prioriza o que converte e corta o que drena verba. Cada real trabalha pelo seu retorno.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Relatórios claros',
+    description:
+      'Resultados de todos os canais numa visão única, pronta para apresentar — sem montar planilha.',
+  },
+  {
+    icon: Plug,
+    title: 'Integrações nativas',
+    description:
+      'Conecte Google, Meta, TikTok e LinkedIn em minutos, pelas APIs oficiais de cada canal.',
   },
   {
     icon: ShieldCheck,
-    title: 'Você no controle',
+    title: 'Segurança e governança',
     description:
-      'O agente propõe e executa, mas com limites que você define. Aprovações, alçadas e trilha de auditoria completas.',
+      'Tokens cifrados, alçadas, aprovações e trilha de auditoria. Você define os limites do agente.',
   },
 ]
 
@@ -37,13 +49,13 @@ export function Benefits() {
       <Container>
         <SectionHeading
           eyebrow="Por que a Batuta"
-          title="Feita para quem leva performance a sério"
-          description="Quatro pilares que transformam operação de mídia em regência: previsível, escalável e sob seu comando."
+          title="Tudo o que sua operação de mídia precisa"
+          description="Seis pilares que transformam operação de anúncios em regência: previsível, escalável e sob o seu comando."
         />
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {benefits.map((benefit, i) => (
-            <Reveal key={benefit.title} delay={i * 0.08}>
+            <Reveal key={benefit.title} delay={(i % 3) * 0.08}>
               <div className="group relative h-full overflow-hidden rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-card">
                 <div
                   aria-hidden

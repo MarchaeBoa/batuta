@@ -7,10 +7,10 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: 'Produto',
     links: [
+      { label: 'Visão geral', href: '#produto' },
       { label: 'Recursos', href: '#recursos' },
-      { label: 'Demonstração', href: '#produto' },
-      { label: 'Clientes', href: '#depoimentos' },
-      { label: 'Perguntas', href: '#faq' },
+      { label: 'Preços', href: '#precos' },
+      { label: 'Depoimentos', href: '#depoimentos' },
     ],
   },
   {
