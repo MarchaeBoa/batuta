@@ -9,7 +9,6 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm --filter @batuta/core test",
     "dev:web": "pnpm --filter @batuta/web dev",
-    "dev:worker": "pnpm --filter @batuta/workers dev",
     "db:push": "pnpm --filter @batuta/db db:push"
   },
   "engines": {
