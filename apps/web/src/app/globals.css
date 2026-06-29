@@ -2,12 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+@layer base {
+  :root {
+    color-scheme: light;
+    --background: #ffffff;
+    --foreground: #0b0b14;
+  }
+
+  * {
+    border-color: theme('colors.zinc.200');
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgba(91, 86, 240, 0.16);
+    color: #0b0b14;
+  }
+
+  /* Tipografia de títulos: tracking justo, equilíbrio premium */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+@layer utilities {
+  .text-gradient {
+    background-image: linear-gradient(100deg, #5b56f0 0%, #9b6cff 52%, #5b56f0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Grade sutil de fundo */
+  .bg-grid {
+    background-size: 56px 56px;
+    background-image:
+      linear-gradient(to right, rgba(11, 11, 20, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11, 11, 20, 0.045) 1px, transparent 1px);
+  }
+
+  .bg-dots {
+    background-size: 22px 22px;
+    background-image: radial-gradient(rgba(11, 11, 20, 0.07) 1px, transparent 1px);
+  }
+
+  .mask-radial {
+    -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 38%, #000 38%, transparent 76%);
+    mask-image: radial-gradient(ellipse 65% 60% at 50% 38%, #000 38%, transparent 76%);
+  }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent);
+  }
+
+  /* Borda com leve gradiente para cards premium */
+  .ring-hairline {
+    box-shadow: inset 0 0 0 1px rgba(11, 11, 20, 0.06);
+  }
+}
+
+/* Acessibilidade: respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
